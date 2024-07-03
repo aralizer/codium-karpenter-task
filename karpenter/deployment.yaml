@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karpenter-demo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: karpenter-demo
+  template:
+    metadata:
+      labels:
+        app: karpenter-demo
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: "amd64"  # Matches the label in the NodePool template
+      containers:
+        - name: karpenter-demo
+          image: nginx:latest
+          resources:
+            limits:
+              cpu: 1
